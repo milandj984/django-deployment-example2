@@ -1,0 +1,19 @@
+{% extends 'signin/base.html' %}
+
+{% block title_block %}Register{% endblock %}
+
+{% block block1 %}
+    {% if registered %}
+        <h1>Thank you for registering!</h1>
+    {% else %}
+        <h1>Register here</h1>
+        <h3>Fill out the form:</h3>
+{#        enctype je zbog upload-a slika#}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+            <input type="submit" class="btn btn-primary" value="Register">
+        </form>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title_block %}Homepage{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'signin_css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'signin_css/signin.css' %}">
+</head>
+<body {% block body_image %}style="background-image: url('{% static 'signin_images/hd-wallpapers-5.jpg' %}'); background-repeat: no-repeat; background-size: cover"{% endblock %}>
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+  <a class="navbar-brand" href="{% url 'signin:index' %}">Homepage</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'signin:register' %}">Register</a>
+      </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signin:user_logout' %}">Log out: {{ user.username }}</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signin:user_login' %}">Log in</a>
+            </li>
+        {% endif %}
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'signin:special' %}">Da li si ulogovan?</a>
+        </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container"><br>
+    <div class="jumbotron">
+        {% block block1 %}
+            {% if user.is_authenticated %}
+                <h1 class="align-cntr">Welcome {{ user.username }}!</h1>
+                {% if compname and HTTP_USER_AGENT and REMOTE_ADDR %}
+                    <h5>Computer name: {{ compname }}</h5>
+                    <h5>Explorer: {{ HTTP_USER_AGENT }}</h5>
+                    <h5>IP Address: {{ REMOTE_ADDR }}</h5>
+                {% endif %}
+            {% else %}
+                <h1 class="align-cntr">Welcome Guest!</h1>
+            {% endif %}
+        {% endblock %}
+    </div>
+</div>
+
+<script src="{% static 'signin_js/jquery-3.3.1.slim.js' %}"></script>
+<script src="{% static 'signin_js/ajax_libs_popper.js_1.14.3_umd_popper.js' %}"></script>
+<script src="{% static 'signin_js/bootstrap_4.1.1_js_bootstrap.js' %}"></script>
+</body>
+</html>
